@@ -1,0 +1,7 @@
+{
+  "name": "Mewt - Social Cat Collector",
+  "description": "The official website for Mewt. Collect cats, track their history, and translate their meows using AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
