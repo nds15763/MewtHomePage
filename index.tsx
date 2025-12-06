@@ -18,10 +18,22 @@ import {
   Zap,
   Music,
   Settings,
-  ArrowLeft
+  ArrowLeft,
+  Instagram,
+  Twitter,
+  Facebook,
+  Linkedin,
+  Navigation,
+  Plus
 } from 'lucide-react';
 
 // --- Custom Icons & Assets ---
+
+const TikTokIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+  </svg>
+);
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -160,245 +172,318 @@ const StatusBar = ({ dark = false }) => (
 
 // --- Mock Screens ---
 
-// 1. Login Screen (Image 1 style)
-const LoginScreen = () => (
-  <div className="w-full h-full bg-[#8B5CF6] relative overflow-hidden flex flex-col font-sans">
-    <StatusBar />
+// 1. Map Screen (Image 1 - Core Logic)
+const MapScreen = () => (
+  <div className="w-full h-full bg-[#e5f0f9] relative overflow-hidden flex flex-col font-sans">
+    <StatusBar dark />
     
-    {/* Background Pattern */}
-    <div className="absolute inset-0 opacity-20">
-       <svg width="100%" height="100%">
-         <pattern id="cat-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-           <path d="M20 40 Q30 20 40 40 L50 50 Q40 70 30 70 Q20 70 10 50 Z" fill="white" transform="rotate(-15 30 55)"/>
-           <path d="M10 10 L20 30 L0 30 Z" fill="white" opacity="0.5"/> 
-           <path d="M60 10 L65 25 L55 25 Z" fill="white" opacity="0.7" transform="rotate(45 60 20)"/>
-         </pattern>
-         <rect x="0" y="0" width="100%" height="100%" fill="url(#cat-pattern)" />
-       </svg>
-       {/* Gradient overlay */}
-       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8B5CF6]/50 to-[#8B5CF6]"></div>
-    </div>
-
-    {/* Central Avatar */}
-    <div className="flex-1 flex flex-col items-center justify-center z-10 -mt-10">
-      <div className="w-32 h-32 bg-white rounded-full p-1 mb-12 shadow-[0_0_60px_rgba(139,92,246,0.6)] relative ring-4 ring-white/20">
-        <div className="w-full h-full rounded-full bg-slate-100 overflow-hidden relative border-4 border-white">
-           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Misty&backgroundColor=b6e3f4" className="w-full h-full object-cover scale-110" />
-           {/* Hat simulation */}
-           <div className="absolute -top-2 -right-2 transform rotate-12 z-20 drop-shadow-lg">
-              <div className="text-5xl">🎩</div>
-           </div>
+    {/* CSS Map Background */}
+    <div className="absolute inset-0 z-0">
+        <div className="w-full h-full opacity-30" style={{
+            backgroundImage: 'linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+        }}></div>
+        {/* Mock Streets */}
+        <div className="absolute top-[30%] left-0 w-full h-6 bg-white rotate-6"></div>
+        <div className="absolute top-0 left-[60%] w-6 h-full bg-white -rotate-12"></div>
+        <div className="absolute top-[60%] left-0 w-full h-8 bg-white -rotate-3"></div>
+        
+        {/* Map POIs */}
+        <div className="absolute top-[20%] left-[20%] text-slate-400 font-bold text-[10px]">Aquarium of the Bay</div>
+        <div className="absolute top-[50%] right-[10%] text-slate-400 font-bold text-[10px]">Lafayette Park</div>
+        
+        {/* Map Pins - Cats */}
+        {/* Pin 1 */}
+        <div className="absolute top-[35%] left-[40%] flex flex-col items-center animate-bounce-slow">
+            <div className="relative">
+                <div className="absolute -top-3 -right-3 bg-slate-900 text-[#bef264] text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white z-20">100</div>
+                <div className="w-16 h-16 rounded-2xl border-4 border-white shadow-lg overflow-hidden relative z-10 bg-orange-100">
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                </div>
+            </div>
+            <div className="w-2 h-2 bg-slate-400 rounded-full mt-1"></div>
         </div>
-      </div>
-      
-      {/* Google Login Button */}
-      <button className="w-[80%] bg-white rounded-2xl py-4 px-4 flex items-center justify-center gap-3 shadow-[0_4px_0_#e2e8f0] hover:translate-y-1 hover:shadow-none transition-all border-b-4 border-[#bef264] group">
-        <div className="group-hover:scale-110 transition-transform"><GoogleIcon /></div>
-        <span className="text-[#8B5CF6] font-bold text-lg font-display">Login with Google</span>
-      </button>
+
+        {/* Pin 2 */}
+        <div className="absolute top-[25%] right-[20%] flex flex-col items-center" style={{animationDelay: '1s'}}>
+            <div className="relative">
+                <div className="absolute -top-3 -right-3 bg-white text-slate-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-100 z-20 shadow-sm">3</div>
+                <div className="w-14 h-14 rounded-2xl border-4 border-white shadow-lg overflow-hidden relative z-10 bg-blue-100">
+                    <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                </div>
+            </div>
+            <div className="w-2 h-2 bg-slate-400 rounded-full mt-1"></div>
+        </div>
+
+         {/* Pin 3 */}
+         <div className="absolute bottom-[30%] left-[20%] flex flex-col items-center" style={{animationDelay: '0.5s'}}>
+            <div className="relative">
+                <div className="absolute -top-3 -left-2 bg-white text-slate-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-100 z-20 shadow-sm">3</div>
+                <div className="w-12 h-12 rounded-2xl border-4 border-white shadow-lg overflow-hidden relative z-10 bg-pink-100">
+                    <img src="https://images.unsplash.com/photo-1495360019602-e05980bf543a?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                </div>
+            </div>
+            <div className="w-2 h-2 bg-slate-400 rounded-full mt-1"></div>
+        </div>
+
+        {/* Pin 4 */}
+        <div className="absolute top-[45%] right-[5%] flex flex-col items-center" style={{animationDelay: '1.5s'}}>
+            <div className="relative">
+                <div className="absolute -top-3 -left-3 bg-white text-slate-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-slate-100 z-20 shadow-sm">99</div>
+                <div className="w-14 h-14 rounded-2xl border-4 border-white shadow-lg overflow-hidden relative z-10 bg-purple-100">
+                    <img src="https://images.unsplash.com/photo-1529778873920-4da4926a7071?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                </div>
+            </div>
+             <div className="w-2 h-2 bg-slate-400 rounded-full mt-1"></div>
+        </div>
+        
+        {/* User Location */}
+        <div className="absolute bottom-[20%] right-[30%]">
+             <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center animate-pulse">
+                <div className="w-4 h-4 bg-green-500 border-2 border-white rounded-full shadow-sm"></div>
+             </div>
+        </div>
     </div>
 
-    {/* Bottom Icon Bar */}
-    <div className="bg-white/90 backdrop-blur-xl p-4 rounded-t-[2.5rem] flex gap-4 overflow-x-auto hide-scrollbar pb-8 absolute bottom-0 w-full z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
-       {[
-         { icon: <CatFaceIcon />, bg: 'bg-orange-100' },
-         { icon: <MouseIcon />, bg: 'bg-slate-100' },
-         { icon: <SleepIcon />, bg: 'bg-yellow-100' },
-         { icon: <YarnIcon />, bg: 'bg-pink-100' },
-         { icon: <DogIcon />, bg: 'bg-orange-100' },
-         { icon: <FoodIcon />, bg: 'bg-slate-100' },
-       ].map((item, i) => (
-         <div key={i} className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm border-2 border-white`}>
-            {item.icon}
-         </div>
-       ))}
-       <div className="w-auto px-6 h-14 bg-[#8B5CF6] rounded-2xl flex items-center justify-center text-white font-bold text-sm shadow-sm flex-shrink-0 font-display border-b-4 border-[#7c3aed]">
-         More
-       </div>
+    {/* Header Controls */}
+    <div className="relative z-20 pt-12 px-4 flex justify-between items-start">
+        <div className="flex gap-2 items-center">
+            <div className="w-12 h-12 rounded-full border-2 border-[#8B5CF6] p-0.5 bg-white">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" className="w-full h-full rounded-full bg-slate-100" />
+            </div>
+            <div className="bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                My Meows
+            </div>
+        </div>
+        <div className="relative">
+            <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-white shadow-lg">
+                <Bell size={20} />
+            </div>
+            <div className="absolute -top-1 -right-1 bg-[#bef264] text-slate-900 text-[10px] font-bold px-1.5 rounded-full border border-slate-900">14</div>
+        </div>
+    </div>
+
+    {/* Bottom Controls */}
+    <div className="absolute bottom-6 left-0 w-full px-6 flex justify-between items-end z-20">
+        <div className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-[#bef264] border-4 border-slate-700 shadow-xl">
+             <Camera size={24} />
+        </div>
+        
+        <div className="relative mb-2">
+            <div className="w-24 h-24 bg-[#8B5CF6] rounded-[2rem] flex flex-col items-center justify-center shadow-[0_8px_0_#7c3aed] active:translate-y-1 active:shadow-none transition-all cursor-pointer border-4 border-white transform rotate-3 hover:rotate-0">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mb-1">
+                    <Plus size={24} className="text-white" strokeWidth={3} />
+                </div>
+                <span className="text-white font-black font-display text-lg tracking-wide">MEOW!</span>
+                {/* Speech Bubble Tail */}
+                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[10px] border-l-transparent border-t-[14px] border-t-[#7c3aed] border-r-[10px] border-r-transparent"></div>
+            </div>
+        </div>
+
+        <div className="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center text-[#bef264] border-4 border-slate-700 shadow-xl">
+            <div className="text-2xl"><CatFaceIcon /></div>
+        </div>
     </div>
   </div>
 );
 
-// 2. Meaning/Icon Grid Screen (Image 2 style)
-const MeaningScreen = () => (
-  <div className="w-full h-full bg-slate-50 relative overflow-hidden flex flex-col font-sans">
-    <StatusBar dark />
+// 2. Chat/Translator Screen (Image 2 style)
+const ChatScreen = () => (
+  <div className="w-full h-full bg-slate-900 relative overflow-hidden flex flex-col font-sans">
+    <StatusBar />
     
-    {/* Header Search */}
-    <div className="pt-14 px-4 pb-4 flex items-center gap-3 z-10 bg-slate-50 sticky top-0">
-       <div className="flex-1 bg-white h-12 rounded-2xl shadow-sm flex items-center px-4 gap-2 border-b-4 border-slate-100">
-         <Search className="text-slate-400" size={20} />
-         <span className="text-slate-400 text-sm font-medium">Search actions...</span>
-       </div>
-       <button className="h-12 px-5 bg-[#8B5CF6] text-white font-bold rounded-2xl shadow-[0_4px_0_#7c3aed] active:shadow-none active:translate-y-1 transition-all font-display">
-         Back
-       </button>
+    {/* Full Screen Cat Image Background */}
+    <div className="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" className="w-full h-full object-cover opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60"></div>
     </div>
 
-    <div className="flex-1 overflow-y-auto px-4 pb-8">
-      {/* Section: Recents */}
-      <div className="mb-6">
-        <h3 className="font-bold text-slate-900 mb-3 px-1 font-display">Recents</h3>
-        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+    {/* Header */}
+    <div className="relative z-10 pt-12 px-4 flex items-center gap-2">
+        <ArrowLeft className="text-white" />
+    </div>
+
+    {/* Chat Area */}
+    <div className="relative z-10 flex-1 flex flex-col justify-end px-4 pb-20 gap-4">
+        
+        {/* Cat Bubble 1 */}
+        <div className="flex gap-2 items-end opacity-60">
+            <div className="w-8 h-8 rounded-full border border-white overflow-hidden bg-white">
+                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty" />
+            </div>
+            <div className="bg-white/20 backdrop-blur-md text-white text-xs px-3 py-2 rounded-2xl rounded-bl-none">
+                Who are you?
+            </div>
+        </div>
+
+        {/* System Message */}
+        <div className="self-center bg-white/10 backdrop-blur-md text-white/80 text-[10px] px-3 py-1 rounded-full my-2">
+            Interval &ge; 5s will create a new session
+        </div>
+
+        {/* Cat Bubble 2 */}
+        <div className="flex gap-2 items-end">
+             <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-[#bef264] flex items-center justify-center">
+                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty" className="scale-110" />
+            </div>
+            <div className="bg-white text-slate-900 text-sm font-bold px-4 py-3 rounded-2xl rounded-bl-none shadow-lg max-w-[200px]">
+                Where's my mom? I want my mom! 😿
+            </div>
+             <div className="w-6 h-6 bg-[#8B5CF6] rounded-full flex items-center justify-center shadow-md">
+                <Music size={12} className="text-white" />
+            </div>
+        </div>
+        
+        {/* Audio Visualizer */}
+        <div className="mt-2 bg-black/60 backdrop-blur-xl rounded-2xl p-3 flex items-center gap-3 border border-white/10">
+             <div className="w-10 h-10 rounded-full bg-slate-800 overflow-hidden border border-white/20">
+                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty" />
+             </div>
+             <div className="flex-1 flex items-center gap-0.5 h-8 justify-center">
+                 {[...Array(20)].map((_, i) => (
+                     <div key={i} className="w-1 bg-[#bef264] rounded-full animate-pulse" style={{
+                         height: `${Math.random() * 100}%`,
+                         animationDelay: `${i * 0.05}s`
+                     }}></div>
+                 ))}
+             </div>
+             <div className="text-[10px] font-bold text-white bg-slate-700 px-2 py-1 rounded-lg">
+                 Deep Mewting...
+             </div>
+        </div>
+
+        {/* Translation Label */}
+        <div className="flex justify-between items-center mt-2">
+            <div className="flex gap-2 items-center bg-[#8B5CF6]/20 backdrop-blur-md px-3 py-1 rounded-lg border border-[#8B5CF6]/50">
+                <Zap size={12} className="text-[#8B5CF6]" fill="#8B5CF6"/>
+                <span className="text-xs font-bold text-[#8B5CF6]">Deep Mewt</span>
+            </div>
+            <div className="w-8 h-8 bg-[#8B5CF6] rounded-full flex items-center justify-center text-white">
+                <Camera size={14} />
+            </div>
+        </div>
+
+        {/* Bottom Icons */}
+         <div className="bg-white rounded-2xl p-2 flex justify-between items-center shadow-lg">
            {[<CatFaceIcon />, <MouseIcon />, <SleepIcon />, <YarnIcon />, <DogIcon />, <FoodIcon />].map((icon, i) => (
-             <div key={i} className="w-14 h-14 bg-white rounded-2xl shadow-sm border-b-4 border-slate-100 flex items-center justify-center flex-shrink-0 hover:bg-slate-50 transition-colors cursor-pointer">
+             <div key={i} className="w-8 h-8 flex items-center justify-center hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
                 {icon}
              </div>
            ))}
+           <div className="px-3 py-1 bg-[#8B5CF6] text-white text-xs font-bold rounded-lg">More</div>
         </div>
-      </div>
 
-      {/* Section: Friendly */}
-      <div className="mb-6">
-        <h3 className="font-bold text-slate-900 mb-3 px-1 font-display">Friendly</h3>
-        <div className="grid grid-cols-4 gap-3">
-           {[
-             { icon: <CatFaceIcon />, label: "Friendly Call" },
-             { icon: <SleepIcon />, label: "Comfortable" },
-             { icon: <LoveIcon />, label: "Affectionate" },
-             { icon: <HappyIcon />, label: "Satisfied" },
-             { icon: <HappyIcon />, label: "Delicious" },
-           ].map((item, i) => (
-             <div key={i} className="aspect-square bg-white rounded-2xl shadow-sm border-b-4 border-slate-100 flex flex-col items-center justify-center p-1 gap-1 hover:-translate-y-1 transition-transform cursor-pointer">
-                <div className="scale-125">{item.icon}</div>
-                <span className="text-[8px] font-bold text-slate-500 text-center leading-tight">{item.label}</span>
-             </div>
-           ))}
-        </div>
-      </div>
-
-      {/* Section: Attention */}
-      <div className="mb-6">
-        <h3 className="font-bold text-slate-900 mb-3 px-1 font-display">Attention</h3>
-        <div className="grid grid-cols-4 gap-3">
-           {[
-             { icon: <WaveIcon />, label: "Greeting" },
-             { icon: <FoodIcon />, label: "Food Request" },
-             { icon: <YarnIcon />, label: "Play Invitaion" },
-             { icon: <MouseIcon />, label: "Hunt Invitaion" },
-             { icon: <CryIcon />, label: "Distressed" },
-             { icon: <DogIcon />, label: "Finding Mom" },
-           ].map((item, i) => (
-             <div key={i} className="aspect-square bg-white rounded-2xl shadow-sm border-b-4 border-slate-100 flex flex-col items-center justify-center p-1 gap-1 hover:-translate-y-1 transition-transform cursor-pointer">
-                <div className="scale-125">{item.icon}</div>
-                <span className="text-[8px] font-bold text-slate-500 text-center leading-tight">{item.label}</span>
-             </div>
-           ))}
-        </div>
-      </div>
     </div>
   </div>
 );
 
-// 3. Profile Screen with Updated MeowPoints (Image 3 style)
-const ProfileScreen = () => (
-  <div className="w-full h-full bg-slate-50 relative overflow-hidden flex flex-col font-sans">
-    <StatusBar dark />
-    <div className="h-14 flex justify-between items-center px-4 pt-4 mt-2">
-      <ArrowLeft className="text-slate-800 cursor-pointer hover:opacity-70" />
-      <span className="font-display font-bold text-lg text-slate-800">Profile</span>
-      <Settings className="text-slate-800 cursor-pointer hover:opacity-70" />
-    </div>
 
-    <div className="px-6 pt-6 pb-4 flex items-center gap-4">
-      <div className="relative">
-        <div className="w-20 h-20 rounded-full border-4 border-white shadow-md overflow-hidden bg-purple-100">
-           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kitty&backgroundColor=c0aede" className="w-full h-full" />
-        </div>
-        {/* Edit Pencil */}
-        <div className="absolute top-0 right-0 text-[#8B5CF6] cursor-pointer hover:scale-110 transition-transform">
-           <div className="bg-white rounded-full p-1 shadow-sm border border-slate-100">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-           </div>
-        </div>
-      </div>
-      <div>
-        <div className="flex items-center gap-2">
-          <h2 className="font-bold text-2xl text-slate-900 font-display">yonghuming</h2>
-        </div>
-      </div>
-    </div>
+// --- Webpage Sections ---
 
-    {/* Meow Points Banner (Image 3 Style) */}
-    <div className="px-4 mt-2">
-      <div className="bg-[#bef264] h-20 rounded-[1.5rem] flex justify-between items-center px-4 relative shadow-[0_4px_0_#a3e635] hover:shadow-[0_2px_0_#a3e635] hover:translate-y-[2px] transition-all">
-         <div className="flex items-center gap-3 z-10">
-            <div className="w-10 h-10 bg-transparent rounded-xl flex items-center justify-center relative">
-               {/* Logo simulation */}
-               <Zap className="text-[#8B5CF6] fill-[#8B5CF6] absolute top-0 left-0" size={24} />
-               <div className="absolute top-2 left-3 text-[#8B5CF6] opacity-50 scale-75">
-                 <CatFaceIcon />
-               </div>
+const RescueSection = () => {
+    return (
+        <section className="py-20 bg-slate-50 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    {/* Membership Card Visual */}
+                    <div className="relative">
+                        <div className="absolute -inset-4 bg-gradient-to-r from-[#bef264] to-[#8B5CF6] rounded-[2rem] opacity-30 blur-2xl"></div>
+                        <div className="bg-gradient-to-br from-[#bef264] to-[#a3e635] rounded-[2rem] p-8 shadow-2xl relative overflow-hidden border-4 border-white/50 aspect-[1.6/1] flex flex-col justify-between transform hover:scale-[1.02] transition-transform duration-500">
+                             {/* Decorative Elements */}
+                             <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/20 rounded-full blur-2xl"></div>
+                             <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#8B5CF6]/20 rounded-full blur-2xl"></div>
+                             
+                             <div className="relative z-10 flex justify-between items-start">
+                                 <div className="bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-sm inline-flex items-center gap-2">
+                                     <Heart className="text-red-500 fill-red-500" size={20} />
+                                     <span className="font-display font-bold text-slate-900">Rescue Member</span>
+                                 </div>
+                                 <div className="text-slate-900 font-black text-4xl opacity-20">#0421</div>
+                             </div>
+                             
+                             <div className="relative z-10">
+                                 <h3 className="text-slate-900 font-display font-black text-3xl mb-2">Stray Cat Guardian</h3>
+                                 <p className="text-slate-800 font-medium mb-6 max-w-xs">Help track, feed, and rescue neighborhood cats. Every scan contributes to the community database.</p>
+                                 
+                                 <div className="flex items-center justify-between bg-white rounded-xl p-2 pl-4 shadow-lg">
+                                     <div className="flex flex-col">
+                                         <span className="text-[10px] font-bold text-slate-400 uppercase">Donation Points</span>
+                                         <span className="text-2xl font-black text-slate-900">1,250</span>
+                                     </div>
+                                     <button className="bg-[#8B5CF6] text-white w-12 h-12 rounded-lg flex items-center justify-center shadow-md hover:bg-[#7c3aed] transition-colors">
+                                         <Plus size={24} strokeWidth={3} />
+                                     </button>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    <div>
+                        <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-green-100 border border-green-200 text-green-700 font-bold text-sm">
+                            ❤️ Community Rescue
+                        </div>
+                        <h2 className="font-display font-bold text-4xl lg:text-5xl text-slate-900 mb-6">
+                            Every <span className="text-[#8B5CF6]">Meow</span> Counts.
+                        </h2>
+                        <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                            Join our rescue program. Use Mewt to identify stray cats, log their locations for rescue organizations, and contribute to their well-being.
+                        </p>
+                        
+                        {/* Rescue Stories Feed */}
+                        <div className="space-y-4">
+                            <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                                Latest Rescue Stories
+                            </h4>
+                            <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex gap-4 hover:shadow-md transition-shadow cursor-pointer">
+                                <div className="w-20 h-20 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1511044568932-338cba0fb803?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between items-start mb-1">
+                                        <span className="font-bold text-slate-900">Found "Ginger"</span>
+                                        <span className="text-xs text-slate-400">2h ago</span>
+                                    </div>
+                                    <p className="text-sm text-slate-600 line-clamp-2">Thanks to the Mewt community map, we located Ginger near the park entrance and reunited him with his owner!</p>
+                                </div>
+                            </div>
+                             <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex gap-4 hover:shadow-md transition-shadow cursor-pointer">
+                                <div className="w-20 h-20 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" className="w-full h-full object-cover" />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between items-start mb-1">
+                                        <span className="font-bold text-slate-900">New Shelter Partner</span>
+                                        <span className="text-xs text-slate-400">1d ago</span>
+                                    </div>
+                                    <p className="text-sm text-slate-600 line-clamp-2">We have officially partnered with the SF SPCA to share data on stray cat colonies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <span className="font-bold text-slate-900 text-sm font-display">MeowPoints</span>
-         </div>
-         
-         {/* Counter Pill + Button */}
-         <div className="flex items-center bg-white pl-4 pr-1 py-1 rounded-full h-12 shadow-sm gap-3">
-            <span className="font-display font-black text-2xl text-slate-900">100</span>
-            <div className="w-10 h-10 bg-[#A855F7] rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-[0_2px_0_#7c3aed] active:translate-y-0.5 active:shadow-none transition-all cursor-pointer hover:bg-[#9333ea]">
-              +
-            </div>
-         </div>
-      </div>
-    </div>
+        </section>
+    );
+};
 
-    {/* Shop Cards */}
-    <div className="px-4 mt-6 grid grid-cols-2 gap-3">
-      <div className="bg-white rounded-2xl p-4 border-2 border-[#8B5CF6] shadow-[0_4px_0_#8B5CF6] flex flex-col items-center active:translate-y-1 active:shadow-none transition-all cursor-pointer group">
-        <span className="font-bold text-sm mb-1 text-slate-500 group-hover:text-slate-900">Weekly</span>
-        <span className="font-display font-bold text-xl text-slate-900 mb-2">$7.99</span>
-        <div className="w-full bg-[#8B5CF6] text-white text-center text-xs font-bold py-2 rounded-lg uppercase group-hover:bg-[#7c3aed]">Buy</div>
-      </div>
-      <div className="bg-white rounded-2xl p-4 border-2 border-[#8B5CF6] shadow-[0_4px_0_#8B5CF6] flex flex-col items-center relative overflow-hidden active:translate-y-1 active:shadow-none transition-all cursor-pointer group">
-        <span className="font-bold text-sm mb-1 text-slate-500 group-hover:text-slate-900">Monthly</span>
-        <div className="flex items-center gap-2 mb-2">
-           <span className="text-xs text-slate-400 line-through">$29.99</span>
-           <span className="font-display font-bold text-lg bg-[#bef264] px-1 rounded text-slate-900">$19.99</span>
-        </div>
-        <div className="w-full bg-[#8B5CF6] text-white text-center text-xs font-bold py-2 rounded-lg uppercase group-hover:bg-[#7c3aed]">Buy</div>
-      </div>
-    </div>
-
-    {/* Tasks List */}
-    <div className="mt-6 flex-1 bg-white mx-4 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] overflow-hidden border-t-4 border-[#8B5CF6] border-x-2 border-slate-100 relative">
-       <div className="bg-[#8B5CF6] p-3 flex justify-between items-center">
-         <div className="bg-black text-[#bef264] font-display font-bold text-lg px-3 py-1 transform -rotate-2 border-2 border-white shadow-lg relative z-10">
-            MEOW!
-         </div>
-         <div className="flex gap-8 text-xs font-bold text-white/90 pr-4">
-            <span className="text-white border-b-2 border-white">FREE</span>
-            <span className="opacity-60 cursor-pointer hover:opacity-100">UPGRADE</span>
-         </div>
-       </div>
-       <div className="divide-y divide-slate-50 overflow-y-auto max-h-[150px]">
-          {["good good words", "good good words", "good good words", "good good words"].map((text, i) => (
-            <div key={i} className="p-4 flex justify-between items-center hover:bg-slate-50 transition-colors">
-               <span className="text-sm font-bold text-slate-600">{text}</span>
-               <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                  <Check size={14} strokeWidth={3} />
-               </div>
-            </div>
-          ))}
-       </div>
-    </div>
-  </div>
-);
 
 // --- Main Page ---
 
 const LandingPage = () => {
   const [activeScreen, setActiveScreen] = useState(0);
   const screens = [
-    { component: <LoginScreen />, title: "Start Collecting", description: "Join the world's biggest cat collection game." },
-    { component: <MeaningScreen />, title: "Understand Them", description: "AI-powered translator to know what they want." },
-    { component: <ProfileScreen />, title: "Track & Level Up", description: "Earn MeowPoints and see your kitty history." },
+    { component: <MapScreen />, title: "Explore the Map", description: "Discover neighborhood cats and build your collection." },
+    { component: <ChatScreen />, title: "Talk to Cats", description: "Translate meows into human speech instantly." },
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveScreen((prev) => (prev + 1) % screens.length);
-    }, 4000);
+    }, 5000); // Slower rotation
     return () => clearInterval(interval);
   }, []);
 
@@ -436,7 +521,7 @@ const LandingPage = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             
             {/* Hero Text */}
-            <div className="flex-1 text-center lg:text-left">
+            <div className="flex-1 text-center lg:text-left order-2 lg:order-1">
               <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-100 text-[#8B5CF6] font-bold text-sm">
                 ✨ The Pokémon GO for Real Cats
               </div>
@@ -466,39 +551,31 @@ const LandingPage = () => {
             </div>
 
             {/* Hero Visual / Mockup Rotator */}
-            <div className="flex-1 relative w-full max-w-[400px] lg:max-w-none flex justify-center">
+            <div className="flex-1 relative w-full max-w-[400px] lg:max-w-none flex justify-center order-1 lg:order-2">
                {/* Decorative rings */}
                <div className="absolute inset-0 bg-gradient-to-tr from-[#8B5CF6] to-[#bef264] rounded-full blur-3xl opacity-20 scale-90"></div>
                
-               <div className="relative z-10 transition-all duration-500 ease-in-out transform">
+               <div className="relative z-10 transition-all duration-500 ease-in-out transform hover:scale-[1.02] cursor-pointer" onClick={() => setActiveScreen((prev) => (prev + 1) % screens.length)}>
                  <MockPhone>
                     {screens[activeScreen].component}
                  </MockPhone>
                  
                  {/* Feature Caption Floating */}
-                 <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border-l-4 border-[#8B5CF6] max-w-[200px] animate-bounce-slow hidden sm:block">
+                 <div className="absolute top-1/2 -left-8 -translate-y-1/2 lg:-left-12 lg:top-auto lg:bottom-20 bg-white p-4 rounded-2xl shadow-xl border-l-4 border-[#bef264] max-w-[200px] animate-bounce-slow hidden sm:block">
                     <div className="flex items-center gap-2 mb-1">
                        <div className="w-2 h-2 rounded-full bg-[#bef264]"></div>
-                       <span className="font-bold text-xs text-[#8B5CF6] uppercase tracking-wider">Live Demo</span>
+                       <span className="font-bold text-xs text-[#8B5CF6] uppercase tracking-wider">Now Playing</span>
                     </div>
                     <p className="font-display font-bold text-slate-900">{screens[activeScreen].title}</p>
                  </div>
-               </div>
-
-               {/* Screen Selector Dots */}
-               <div className="absolute -right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 hidden xl:flex">
-                  {screens.map((_, idx) => (
-                    <button 
-                      key={idx}
-                      onClick={() => setActiveScreen(idx)}
-                      className={`w-3 h-3 rounded-full transition-all ${idx === activeScreen ? 'bg-[#8B5CF6] scale-125' : 'bg-slate-300 hover:bg-slate-400'}`}
-                    />
-                  ))}
                </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Rescue Section (New) */}
+      <RescueSection />
 
       {/* Features Grid */}
       <section id="features" className="py-24 bg-white relative">
@@ -571,13 +648,28 @@ const LandingPage = () => {
               </div>
               <span className="font-display font-bold text-xl text-white">Mewt</span>
             </div>
+            
             <div className="flex gap-6 text-sm font-medium">
-               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+               <a href="#" className="hover:text-white transition-colors">Privacy</a>
+               <a href="#" className="hover:text-white transition-colors">Terms</a>
                <a href="#" className="hover:text-white transition-colors">Support</a>
             </div>
+
+            {/* Social Icons */}
+            <div className="flex gap-4">
+                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#8B5CF6] hover:text-white transition-colors">
+                    <Instagram size={20} />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#8B5CF6] hover:text-white transition-colors">
+                    <Twitter size={20} />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#8B5CF6] hover:text-white transition-colors">
+                    <TikTokIcon />
+                </a>
+            </div>
+            
             <div className="text-xs opacity-60">
-               © 2024 Mewt Inc. All rights reserved.
+               © 2024 Mewt Inc.
             </div>
          </div>
       </footer>
